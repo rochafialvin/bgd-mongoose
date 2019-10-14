@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        set: (val) => { val.replace(/ /g, '') }, // val = data dari user, menghapus semua spasi
+        set: (val) => { return val.replace(/ /g, '') }, // val = data dari user, menghapus semua spasi
         validate(val){
             // val = 123
             val = parseInt(val)
@@ -42,5 +42,8 @@ const userSchema = new mongoose.Schema({
         default: 0 // Jika user tidak menginput informasi umur
     }
 
-
 })
+
+const User = mongoose.model('User', userSchema)
+
+module.exports = User
