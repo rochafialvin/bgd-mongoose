@@ -32,19 +32,29 @@ app.post('/users', (req, res) => {
     const user = new User(req.body)
 
     user.save()
-        .then(() => { res.send('Data berhasil disimpan')})
-        .catch(() => { res.send (err) })
+        .then((resp) => { res.send(resp)})
+        .catch((err) => { res.send (err) })
 
 })
 
+// READ ALL USER
 
+// READ ONE USER BY ID
+app.get('/users/:userid', async (req, res) => {
 
+    try {
+        const resp = await User.findById(req.params.userid)
+        res.send(resp)
+        
+    } catch (err) {
+        res.send(err)
+    }
 
+})
 
+// DELETE ONE BY ID
 
-
-
-
+// UPDATE BY ID
 
 
 
@@ -56,3 +66,30 @@ app.post('/users', (req, res) => {
 
 
 app.listen(port, () => { console.log(`Running at ${port}`) })
+
+/*
+try {
+    let resp1 = await axios.get(username)
+    let resp2 = await axios.get(email)
+    let resp3 = await axios.post(newuser)
+} catch (err) {
+    console.log(err)
+}
+
+    axios.get(username)
+        .then(res => {
+            axios.get(email)
+                .then(res => {
+                    axios.post(new user)
+                        .then(res => {
+
+                        }).catch(err => {
+
+                        })
+                }).catch(err => {
+
+                })
+        }).catch(err => {
+
+        })
+*/
