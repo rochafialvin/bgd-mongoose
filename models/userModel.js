@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -61,6 +62,18 @@ const userSchema = new mongoose.Schema({
         default: 0 // Jika user tidak menginput informasi umur
     }
 
+})
+
+// Membuat function yang akan dijalankan sebeleum proses user.save()
+userSchema.pre('save', async function(next) {
+    // Mengubah password yang di input dari user kedalam bentuk lain
+    let user = this
+
+    // Hash password
+    user.password = await bcrypt.hash(user.password, 8)
+
+    // Untuk kemudian menjalankan save
+    next() 
 })
 
 const User = mongoose.model('User', userSchema)
