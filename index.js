@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 
 
 const User = require('./models/userModel')
+const Task = require('./models/taskModel')
 
 const app = express()
 const port = 2019
@@ -26,6 +27,7 @@ mongoose.connect(
 // Agar API dapat memproses json
 app.use(express.json())
 
+// U S E R  R O U T E R
 
 // CREATE ONE USER
 app.post('/users', (req, res) => {
@@ -95,8 +97,24 @@ app.post('/users/login', async (req, res) => {
 })
 
 
+// T A S K  R O U T E R
 
+// CREATE TASK
+app.post('/tasks', async (req, res) => {
 
+    try {
+        let task = new Task(req.body)
+        let resp = await task.save()
+        res.send(resp)
+
+    } catch (error) {
+        res.send(error.message)
+
+    }
+    
+})
+
+// UPDATE TASK
 
 
 
