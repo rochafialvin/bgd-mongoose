@@ -1,8 +1,11 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
+        unique: true,
+        required: true,
         set: (val) => { return val.replace(/ /g, '') }, // val = data dari user, menghapus semua spasi
         validate(val){
             // val = 123
@@ -27,6 +30,22 @@ const userSchema = new mongoose.Schema({
             // Akan bernilai true jika inputan dari user merupakan sebuah angka
             if(!isNaN(val)){
                 throw new Error("Name harus merupakan sebuah string")
+            }
+        }
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(val){
+            // validasi apakah input dari user merupakan sebuah email
+            // isEmail akan return antara true atau false
+            let result = validator.isEmail(val)
+
+            if(!result){
+                throw new Error("Format email tidak dikenali")
             }
         }
     },

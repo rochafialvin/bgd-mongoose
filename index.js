@@ -38,6 +38,18 @@ app.post('/users', (req, res) => {
 })
 
 // READ ALL USER
+app.get('/users', async (req, res) => {
+
+    try {
+        let users = await User.find({})
+        res.send(users)
+
+    } catch (error) {
+        res.send(error)
+
+    }
+
+})
 
 // READ ONE USER BY ID
 app.get('/users/:userid', async (req, res) => {
@@ -53,6 +65,7 @@ app.get('/users/:userid', async (req, res) => {
 })
 
 // DELETE ONE BY ID
+
 
 // UPDATE BY ID
 
