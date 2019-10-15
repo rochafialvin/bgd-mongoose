@@ -31,9 +31,6 @@ app.use(express.json())
 app.post('/users', (req, res) => {
 
     const user = new User(req.body)
-    // user = {password: "hello123"}
-
-    // ubah property password (hashing)
 
     // disimpan ke database
     user.save()
@@ -83,9 +80,19 @@ app.delete('/users/:userid', async (req, res) => {
 
 })
 
-// UPDATE BY ID
+// LOGIN USER WITH EMAIL PASSWORD
+app.post('/users/login', async (req, res) => {
 
+    try {
+        let user = await User.login(req.body.email, req.body.password)
+        res.send(user)
 
+    } catch (error) {
+        res.send(error.message)
+    }
+        
+
+})
 
 
 
@@ -120,5 +127,20 @@ try {
                 })
         }).catch(err => {
 
+        })
+
+
+User.login(req.body.email, req.body.password)
+        .then(resp => {
+            res.send({
+                kodisi: "Berhasil",
+                pesan: resp
+            })
+
+        }).catch(error => {
+            res.send({
+                kondisi: "Gagal",
+                pesan: error.message
+            })
         })
 */
