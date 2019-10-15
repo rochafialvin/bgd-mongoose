@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 
+
 const User = require('./models/userModel')
 
 const app = express()
@@ -30,7 +31,11 @@ app.use(express.json())
 app.post('/users', (req, res) => {
 
     const user = new User(req.body)
+    // user = {password: "hello123"}
 
+    // ubah property password (hashing)
+
+    // disimpan ke database
     user.save()
         .then((resp) => { res.send(resp)})
         .catch((err) => { res.send (err) })
@@ -65,7 +70,18 @@ app.get('/users/:userid', async (req, res) => {
 })
 
 // DELETE ONE BY ID
+app.delete('/users/:userid', async (req, res) => {
 
+    try {
+        let resp = await User.deleteOne({_id : req.params.userid})
+        res.send(resp)
+
+    } catch (error) {
+        res.send(error)
+
+    }
+
+})
 
 // UPDATE BY ID
 
