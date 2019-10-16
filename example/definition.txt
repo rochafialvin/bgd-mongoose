@@ -1,0 +1,27 @@
+1. Model
+    Menentukan struktur sebuah document yang akan di simpan
+
+    Contoh:
+    Kita ingin menyimpan user dengan ketentuan sebagai berikut.
+    {
+        username
+            type : String
+            require: true // wajib diisi
+            unique: true // tidak boleh ada username yang sama
+
+        email
+            type: String
+
+        name
+            type: String,
+            trim: true // menghapus spasi di awal dan di akhir kal
+
+        password
+            type: String
+
+        age
+            type: Number
+    }
+
+2. Router
+    Menentukan aturan bagaimana melakukan suatu request (Menambah, Membaca, Mengubah, Menghapusa) ke API
