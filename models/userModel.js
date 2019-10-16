@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
-const bcrypt = require('bcrypt')
+const bcryptjs = require('bcryptjs')
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -75,7 +75,7 @@ userSchema.pre('save', async function(next) {
     let user = this
 
     // Hash password
-    user.password = await bcrypt.hash(user.password, 8)
+    user.password = await bcryptjs.hash(user.password, 8)
 
     // Untuk kemudian menjalankan save
     next() 
@@ -95,7 +95,7 @@ userSchema.statics.login = async (email, password) => {
 
     // Bandingkan password dari input user dg yang ada di database
     // result = true or false
-    let result = await bcrypt.compare(password, user.password)
+    let result = await bcryptjs.compare(password, user.password)
 
     // Jika password tidak match
     if(!result){
