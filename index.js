@@ -119,6 +119,7 @@ app.patch('/tasks/:taskid', async (req, res) => {
     try {
         // Cari task berdasarkan id
         let task = await Task.findById(req.params.taskid)
+        // task = {description, completed}
         // Update completed menjadi true
         task.completed = true
         // Simpan task yang sudah di update
