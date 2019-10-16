@@ -55,6 +55,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         minlength: 7, // Minimal 7 karakter
+        validate(val) {
+            if(val.toLowerCase().includes("password")){
+                throw new Error("Password tidak boleh mengandung kata 'password'")
+            }
+        }
     },
     age: {
         type: Number,

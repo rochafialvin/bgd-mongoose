@@ -115,8 +115,36 @@ app.post('/tasks', async (req, res) => {
 })
 
 // UPDATE TASK
+app.patch('/tasks/:taskid', async (req, res) => {
+    try {
+        // Cari task berdasarkan id
+        let task = await Task.findById(req.params.taskid)
+        // Update completed menjadi true
+        task.completed = true
+        // Simpan task yang sudah di update
+        await task.save()
+        // Kirim respon
+        res.send({updatedTask : task})
+
+    } catch (error) {
+        res.send(error)
+    }
+
+})
 
 
+// DELETE TASK
+app.delete('/tasks/:taskid', async (req, res) => {
+
+    try {
+        let task = await Task.findByIdAndDelete(req.params.taskid)
+        res.send({deletedTask : task})
+        
+    } catch (error) {
+        res.send(error)
+    }
+
+})
 
 
 app.listen(port, () => { console.log(`Running at ${port}`) })
