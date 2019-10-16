@@ -42,6 +42,49 @@ router.get('/users/:userid', async (req, res) => {
 
 })
 
+// UPDATE PROFILE
+router.patch('/users/:userid', async (req, res) => {
+    let updates = Object.keys(req.body) // ['name', 'email', ...]
+    let allowedUpdates = [ 'name', 'email', 'password', 'age' ]
+    
+    let result = updates.every(update => {return allowedUpdates.includes(update)})
+
+    // Jika ada field yang akan di edit selain [ 'name', 'email', 'password', 'age' ]
+
+    if(!result){
+        return res.send({err: "Invalid Request"})
+    }
+
+    try {
+        let user = await User.findById(req.params.userid)
+        
+        // Update user
+
+            // user.name = req.body.name
+            // user.email = req.body.email
+            // user.password = req.body.password
+            // user.age = req.body.age
+
+        // updates = [ 'name', 'email', 'password', 'age' ]
+        // user = {name, email, password, age}
+        updates.forEach((val) => { user[val] = req.body[val] })
+
+        /*
+            val = 'password'
+
+            user['email'] = req.body['email']
+        */
+
+        await user.save()
+
+        res.send(user)
+
+    } catch (error) {
+        res.send(error)
+    }
+
+})
+
 // DELETE ONE BY ID
 router.delete('/users/:userid', async (req, res) => {
 
