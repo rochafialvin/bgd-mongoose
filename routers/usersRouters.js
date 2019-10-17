@@ -1,7 +1,44 @@
 const express = require('express')
+const multer =require('multer')
+const sharp = require('sharp')
 const router = new express.Router()
 
 const User = require('../models/userModel')
+
+// MULTER CONF
+const upload = multer({
+    limits: {
+        fileSize: 1000000 // 1MB = 1000000 Byte
+    },
+    fileFilter(req, file, callback){
+
+        if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+            return callback(new Error('Forma file haurs jpg / png / jpeg'))
+        }
+
+        callback(null, true)
+    }
+})
+
+// UPLOAD AVATAR
+router.post('/users/avatar/:userid', upload.single('avatar') , async (req, res) => {
+    
+    try {
+        // resize lebar gambar : 250 px, extension .png
+        let buffer = await sharp(req.file.buffer).resize({ width: 250 }).png().toBuffer()
+        let user = await User.findById(req.params.userid)
+        // user {id, name, ...., avatar}
+        user.avatar = buffer
+
+        await user.save()
+        res.send("Upload berhasil")
+        
+    } catch (error) {
+        res.send(error)
+    }
+
+}) 
+
 
 // CREATE ONE USER
 router.post('/users', (req, res) => {

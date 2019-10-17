@@ -32,7 +32,7 @@ router.post('/tasks/:userid', async (req, res) => {
     
 })
 
-// READ ALL OWN TASK
+// READ ALL OWN TASKS
 router.get('/tasks/:userid', async (req, res) => {
 
     try {

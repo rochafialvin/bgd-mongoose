@@ -68,6 +68,9 @@ const userSchema = new mongoose.Schema({
         set: val => parseInt(val),
         default: 0 // Jika user tidak menginput informasi umur
     },
+    avatar : { // Menyimpan image dalam bentuk binary
+        type: Buffer
+    },
     tasks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref :'Task'
