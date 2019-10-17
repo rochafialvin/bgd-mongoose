@@ -46,7 +46,6 @@ router.get('/users/:userid', async (req, res) => {
 router.patch('/users/:userid', async (req, res) => {
     let updates = Object.keys(req.body) // ['name', 'email', ...]
     let allowedUpdates = [ 'name', 'email', 'password', 'age' ]
-    
     let result = updates.every(update => {return allowedUpdates.includes(update)})
 
     // Jika ada field yang akan di edit selain [ 'name', 'email', 'password', 'age' ]

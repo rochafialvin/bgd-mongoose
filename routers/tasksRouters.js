@@ -23,38 +23,48 @@ router.post('/tasks/:userid', async (req, res) => {
         await user.save()
         await task.save()
 
-        res.send({
-            owner: {
-                name: user.name,
-                id: user._id
-            },
-            createdTask : {
-                description: task.description,
-                id: task._id,
-                owner: task.owner
-            }
-        })
+        res.send(task)
 
     } catch (error) {
-        
+        res.send(error)
 
     }
     
 })
 
+// READ ALL OWN TASK
+router.get('/tasks/:userid', async (req, res) => {
+
+    try {
+        // user = {_id, name, ... , tasks}
+        let resp = await User.find({_id: req.params.userid}).populate({path: 'tasks'}).exec()
+
+        res.send(resp[0].tasks)
+
+    } catch (error) {
+
+        res.send(error)
+    }
+
+})
+
 // UPDATE TASK
 router.patch('/tasks/:taskid', async (req, res) => {
-    try {
-        // Cari task berdasarkan id
-        let task = await Task.findById(req.params.taskid)
-        // task = {description, completed}
-        // Update completed menjadi true
-        task.completed = true
-        // Simpan task yang sudah di update
-        await task.save()
-        // Kirim respon
-        res.send({updatedTask : task})
+    let updates = Object.keys(req.body)
+    let allowedUpdates = ['description', 'completed']
+    let result = updates.every(update => allowedUpdates.includes(update))
 
+    if(!result){
+        res.send({err: "Invalid Request"})
+    }
+
+    try {
+        let task = await Task.findById(req.params.taskid)
+        updates.forEach(update => { task[update] = req.body[update] })
+
+        await task.save()
+
+        res.send(task)
     } catch (error) {
         res.send(error)
     }
