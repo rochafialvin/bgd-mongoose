@@ -9,7 +9,14 @@ const taskSchema = new mongoose.Schema({
     completed: {
         type: Boolean,
         default: false
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User' // Object id yang disimpan akan mengacu ke collection 'User'
     }
+}, {
+    timestamps: true // Mencatat waktu saat di buat dan terakhir update
 })
 
 const Task = mongoose.model('Task', taskSchema)

@@ -67,8 +67,14 @@ const userSchema = new mongoose.Schema({
         type: Number,
         set: val => parseInt(val),
         default: 0 // Jika user tidak menginput informasi umur
-    }
+    },
+    tasks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref :'Task'
+    }]
 
+}, {
+    timestamps: true
 })
 
 // Membuat function yang akan dijalankan sebeleum proses user.save()

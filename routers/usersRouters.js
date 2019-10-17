@@ -58,22 +58,7 @@ router.patch('/users/:userid', async (req, res) => {
     try {
         let user = await User.findById(req.params.userid)
         
-        // Update user
-
-            // user.name = req.body.name
-            // user.email = req.body.email
-            // user.password = req.body.password
-            // user.age = req.body.age
-
-        // updates = [ 'name', 'email', 'password', 'age' ]
-        // user = {name, email, password, age}
         updates.forEach((val) => { user[val] = req.body[val] })
-
-        /*
-            val = 'password'
-
-            user['email'] = req.body['email']
-        */
 
         await user.save()
 
