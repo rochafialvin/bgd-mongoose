@@ -76,7 +76,19 @@ router.patch('/tasks/:taskid', async (req, res) => {
 router.delete('/tasks/:taskid', async (req, res) => {
 
     try {
+        // Delete task
         let task = await Task.findByIdAndDelete(req.params.taskid)
+        // task = {_id, description, completed, owner}
+
+        // Delete deletedTask id, menghapus id task yang sudah di hapus di collection tasks
+        let user = await User.findById(task.owner)
+        // Mencari posisi index dari task yang sudah di hapus
+        let index = user.tasks.indexOf(task._id)
+        // Hapus _id task berdasarkan index
+        user.tasks.splice(index,1)
+        // Simpan perubahan user (Karena data pada tasks berubah / terhapus)
+        await user.save()
+        // Kirim respon berupa object dengan property berisi task yang berhasil di hapus
         res.send({deletedTask : task})
         
     } catch (error) {
