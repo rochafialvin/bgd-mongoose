@@ -90,8 +90,11 @@ router.get('/users', async (req, res) => {
 router.get('/users/:userid', async (req, res) => {
 
     try {
-        const resp = await User.findById(req.params.userid)
-        res.send(resp)
+        const user = await User.findById(req.params.userid)
+        res.send({
+            user,
+            avatar: `http://localhost:2019/users/avatar/${req.params.userid}`
+        })
         
     } catch (err) {
         res.send(err)
@@ -155,5 +158,3 @@ router.post('/users/login', async (req, res) => {
 })
 
 module.exports = router
-
-// DELETE TASK
