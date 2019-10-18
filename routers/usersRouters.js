@@ -13,7 +13,7 @@ const upload = multer({
     fileFilter(req, file, callback){
 
         if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
-            return callback(new Error('Forma file haurs jpg / png / jpeg'))
+            return callback(new Error('Format file harus jpg / png / jpeg'))
         }
 
         callback(null, true)
@@ -37,7 +37,27 @@ router.post('/users/avatar/:userid', upload.single('avatar') , async (req, res) 
         res.send(error)
     }
 
-}) 
+}, (err, req, res, next) => {
+    res.send({
+        err: err.message
+    })
+})
+
+// READ AVATAR
+router.get('/users/avatar/:userid', async (req, res) => {
+
+    try {
+        let user = await User.findById(req.params.userid)
+
+        // Secara default content-type adalah json, kita ubah menjadi image karena kita akan mengirim sebuah gambar
+        res.set('Content-Type', 'image/png')
+        res.send(user.avatar)
+
+    } catch (error) {
+        res.send(error)
+    }
+
+})
 
 
 // CREATE ONE USER
@@ -135,3 +155,5 @@ router.post('/users/login', async (req, res) => {
 })
 
 module.exports = router
+
+// DELETE TASK
