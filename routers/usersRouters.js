@@ -70,9 +70,19 @@ router.post('/users', async (req, res) => {
         await user.save()
         res.send(user)
 
-    } catch (error) {
-        res.send(error)
-        
+    } catch (e) {
+        // e.errors = {username, email}
+
+        // Object.keys(e.errors) = [ 'username', 'email' ]
+
+        // Object.keys(e.errors)[0] = 'username'
+
+        // e.errors[Object.keys(e.errors)[0]] = {message, name, kind, path, ..}
+
+        // e.errors[Object.keys(e.errors)[0]].message = username 'rochafi' sudah digunakan
+
+        res.send(e.errors[Object.keys(e.errors)[0]].message)
+
     }
 
 })
