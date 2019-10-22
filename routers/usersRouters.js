@@ -168,7 +168,9 @@ router.post('/users/login', async (req, res) => {
         res.send(user)
 
     } catch (error) {
-        res.send(error.message)
+        res.send({
+            error: error.message
+        })
     }
         
 
