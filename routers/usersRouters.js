@@ -81,7 +81,9 @@ router.post('/users', async (req, res) => {
 
         // e.errors[Object.keys(e.errors)[0]].message = username 'rochafi' sudah digunakan
 
-        res.send(e.errors[Object.keys(e.errors)[0]].message)
+        res.send({
+            error: e.errors[Object.keys(e.errors)[0]].message
+        })
 
     }
 
