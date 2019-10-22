@@ -61,14 +61,19 @@ router.get('/users/avatar/:userid', async (req, res) => {
 
 
 // CREATE ONE USER
-router.post('/users', (req, res) => {
+router.post('/users', async (req, res) => {
 
     const user = new User(req.body)
 
     // disimpan ke database
-    user.save()
-        .then((resp) => { res.send("Manteb") })
-        .catch((err) => { res.send (err) })
+    try {
+        await user.save()
+        res.send(user)
+
+    } catch (error) {
+        res.send(error)
+        
+    }
 
 })
 

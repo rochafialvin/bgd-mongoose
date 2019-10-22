@@ -1,15 +1,17 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const userRouter = require('./routers/usersRouters')
 const taskRouter = require('./routers/tasksRouters')
 
 const app = express()
 const port = process.env.PORT || 2019 // Port heroku || Port localhost
-const URL = 'mongodb+srv://rochafi:Youcanatlas99@bdg-mongoose-kh4p6.mongodb.net/bdg-mongoose?retryWrites=true&w=majority'
+const URL_LOCAL = 'mongodb://127.0.0.1:27017/bdg-mongoose'
+const URL_HEROKU = 'mongodb+srv://rochafi:Youcanatlas99@bdg-mongoose-kh4p6.mongodb.net/bdg-mongoose?retryWrites=true&w=majority'
 
 mongoose.connect(
-    URL,
+    URL_LOCAL,
     {
         // Menggunakan url parser yang baru
         useNewUrlParser: true,
@@ -25,6 +27,7 @@ mongoose.connect(
 
 // Agar API dapat memproses json
 app.use(express.json())
+app.use(cors())
 app.use(userRouter)
 app.use(taskRouter)
 

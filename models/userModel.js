@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcryptjs = require('bcryptjs')
+const uniqueValidator = require('mongoose-unique-validator')
 
 // rochafi
 
@@ -92,7 +93,6 @@ userSchema.methods.toJSON = function() {
     return user
 }
 
-
 // Membuat function yang akan dijalankan sebeleum proses user.save()
 userSchema.pre('save', async function(next) {
     // Mengubah password yang di input dari user kedalam bentuk lain
@@ -130,6 +130,12 @@ userSchema.statics.login = async (email, password) => {
     return user
 
 }
+
+userSchema.plugin(uniqueValidator, { message: "{PATH} '{VALUE}' sudah digunakan" })
+// username : rochafi
+// username = {PATH}, rochafi = {VALUE}
+// {PATH} adalah field yang mengalami duplicate
+// {VALUE} adalah data yang di kirim oleh user
 
 const User = mongoose.model('User', userSchema)
 
