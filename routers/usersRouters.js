@@ -127,6 +127,8 @@ router.get('/users/:userid', async (req, res) => {
 })
 
 // UPDATE PROFILE
+
+// Dapat update tanpa harus update password dan avatar
 router.patch('/users/:userid', upload.single('avatar'), async (req, res) => {
     let updates = Object.keys(req.body) // ['name', 'email', ...]
     let allowedUpdates = [ 'name', 'email', 'password', 'age' ]
@@ -153,7 +155,7 @@ router.patch('/users/:userid', upload.single('avatar'), async (req, res) => {
         res.send(user)
 
     } catch (error) {
-        res.send(error)
+        res.send(error.message)
     }
 
 })
