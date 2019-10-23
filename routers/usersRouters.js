@@ -10,13 +10,20 @@ const upload = multer({
     limits: {
         fileSize: 1000000 // 1MB = 1000000 Byte
     },
-    fileFilter(req, file, callback){
+    fileFilter(req, file, cb){
 
-        if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
-            return callback(new Error('Format file harus jpg / png / jpeg'))
+        // Filter bedasarkan extention file (.jpg, .png. jpeg)
+        let result = file.originalname.match(/\.(jpg|jpeg|png)$/)
+        // extention bkan jpg | jpeg |png = false
+        // extention jpg | jpeg |png = true
+
+        if(!result){
+            // file di tolak
+            return cb(new Error('Format file harus jpg / png / jpeg'))
         }
 
-        callback(null, true)
+        // file di terima
+        cb(null, true)
     }
 })
 
