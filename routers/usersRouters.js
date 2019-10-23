@@ -120,7 +120,7 @@ router.get('/users/:userid', async (req, res) => {
 })
 
 // UPDATE PROFILE
-router.patch('/users/:userid', async (req, res) => {
+router.patch('/users/:userid', upload.single('avatar'), async (req, res) => {
     let updates = Object.keys(req.body) // ['name', 'email', ...]
     let allowedUpdates = [ 'name', 'email', 'password', 'age' ]
     let result = updates.every(update => {return allowedUpdates.includes(update)})
@@ -132,12 +132,17 @@ router.patch('/users/:userid', async (req, res) => {
     }
 
     try {
+        // Get user untuk di edit
         let user = await User.findById(req.params.userid)
-        
+        // Edit data untuk name, password, email, age
         updates.forEach((val) => { user[val] = req.body[val] })
+        // Edit data untuk image
+        let buffer = await sharp(req.file.buffer).resize({ width: 250 }).png().toBuffer()
+        user.avatar = buffer
 
+        // save setelah edit
         await user.save()
-
+        // kirim ke client (react, postman)
         res.send(user)
 
     } catch (error) {

@@ -83,7 +83,7 @@ router.delete('/tasks/:taskid', async (req, res) => {
         // Delete deletedTask id, menghapus id task yang sudah di hapus di collection tasks
         let user = await User.findById(task.owner)
         // Mencari posisi index dari task yang sudah di hapus
-        let index = user.tasks.indexOf(task._id)
+        let index = user.tasks.indexOf(req.params.taskid)
         // Hapus _id task berdasarkan index
         user.tasks.splice(index,1)
         // Simpan perubahan user (Karena data pada tasks berubah / terhapus)

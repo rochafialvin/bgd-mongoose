@@ -98,8 +98,10 @@ userSchema.pre('save', async function(next) {
     // Mengubah password yang di input dari user kedalam bentuk lain
     let user = this
 
-    // Hash password
-    user.password = await bcryptjs.hash(user.password, 8)
+    if(user.isModified('password')){
+        // Hash password
+        user.password = await bcryptjs.hash(user.password, 8)
+    }
 
     // Untuk kemudian menjalankan save
     next() 
