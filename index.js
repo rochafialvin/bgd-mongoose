@@ -11,7 +11,7 @@ const URL_LOCAL = 'mongodb://127.0.0.1:27017/bdg-mongoose'
 const URL_HEROKU = 'mongodb+srv://rochafi:Youcanatlas99@bdg-mongoose-kh4p6.mongodb.net/bdg-mongoose?retryWrites=true&w=majority'
 
 mongoose.connect(
-    URL_LOCAL,
+    URL_HEROKU,
     {
         // Menggunakan url parser yang baru
         useNewUrlParser: true,

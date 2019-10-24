@@ -130,7 +130,11 @@ router.get('/users/:userid', async (req, res) => {
 
 // Dapat update tanpa harus update password dan avatar
 router.patch('/users/:userid', upload.single('avatar'), async (req, res) => {
-    let updates = Object.keys(req.body) // ['name', 'email', ...]
+    if(!req.body.password){
+        delete req.body.password
+    }
+
+    let updates = Object.keys(req.body) // ['name', 'email', 'age', 'password']
     let allowedUpdates = [ 'name', 'email', 'password', 'age' ]
     let result = updates.every(update => {return allowedUpdates.includes(update)})
 

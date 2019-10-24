@@ -10,7 +10,7 @@ router.post('/tasks/:userid', async (req, res) => {
     try {
         let user = await User.findById(req.params.userid)
         let task = new Task({
-            description: req.body.description,
+            ...req.body,
             owner: user._id
         })
 
